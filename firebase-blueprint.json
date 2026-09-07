@@ -1,0 +1,148 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile for farmers, buyers, and administrators",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["FARMER", "BUYER", "ADMIN"] },
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "isEmailVerified": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "language": { "type": "string" },
+        "farmName": { "type": "string" },
+        "farmingType": { "type": "string" },
+        "verificationStatus": { "type": "string", "enum": ["PENDING", "VERIFIED", "REJECTED"] },
+        "businessName": { "type": "string" },
+        "buyerType": { "type": "string" }
+      },
+      "required": ["id", "email", "role", "fullName", "createdAt", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Ready to harvest and warehouse crop listings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "farmerId": { "type": "string" },
+        "farmerName": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "variety": { "type": "string" },
+        "quantityAvailable": { "type": "number" },
+        "unit": { "type": "string" },
+        "pricePerUnit": { "type": "number" },
+        "state": { "type": "string" },
+        "district": { "type": "string" },
+        "farmingType": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "farmerId", "name", "category", "quantityAvailable", "unit", "pricePerUnit", "state", "status"]
+    },
+    "HarvestListing": {
+      "title": "HarvestListing",
+      "description": "Pre-harvest forward pipeline crop listings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "farmerId": { "type": "string" },
+        "farmerName": { "type": "string" },
+        "cropName": { "type": "string" },
+        "expectedYield": { "type": "number" },
+        "unit": { "type": "string" },
+        "expectedHarvestDate": { "type": "string" },
+        "estimatedPricePerUnit": { "type": "number" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "farmerId", "cropName", "expectedYield", "unit", "expectedHarvestDate"]
+    },
+    "FarmerBuyerAgreement": {
+      "title": "FarmerBuyerAgreement",
+      "description": "Legally binding digital contract between farmer and buyer with flat ₹20 fee",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "agreementNumber": { "type": "string" },
+        "farmerId": { "type": "string" },
+        "buyerId": { "type": "string" },
+        "cropName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "agreedPricePerUnit": { "type": "number" },
+        "totalProductAmount": { "type": "number" },
+        "platformFeeApplied": { "type": "number" },
+        "totalPayableAmount": { "type": "number" },
+        "farmerSignatureStatus": { "type": "string" },
+        "buyerSignatureStatus": { "type": "string" },
+        "agreementStatus": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "agreementNumber", "farmerId", "buyerId", "cropName", "quantity", "agreedPricePerUnit", "platformFeeApplied", "totalPayableAmount", "agreementStatus"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Fulfillment and delivery order records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "buyerId": { "type": "string" },
+        "farmerId": { "type": "string" },
+        "items": { "type": "array" },
+        "productSubtotal": { "type": "number" },
+        "platformFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "orderStatus": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "buyerId", "farmerId", "productSubtotal", "platformFee", "totalAmount", "orderStatus", "paymentStatus"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable security and administrative audit event trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "adminId": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "adminId", "adminEmail", "action", "targetType", "details", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Authenticated user profile and role storage"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Direct agricultural produce inventory"
+    },
+    "/harvestListings/{harvestId}": {
+      "schema": "HarvestListing",
+      "description": "Pre-harvest forward trade opportunities"
+    },
+    "/agreements/{agreementId}": {
+      "schema": "FarmerBuyerAgreement",
+      "description": "Digital forward contracts and legal agreements"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Order fulfillments, payments and escrow delivery"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Protected administrative and audit trail logs"
+    }
+  }
+}

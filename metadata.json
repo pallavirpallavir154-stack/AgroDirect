@@ -1,0 +1,6 @@
+{
+  "name": "AgroDirect",
+  "description": "Modern agricultural marketplace directly connecting farmers and buyers with AI assistance, crop price predictions, direct harvest negotiation, and transparent digital agreements.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
